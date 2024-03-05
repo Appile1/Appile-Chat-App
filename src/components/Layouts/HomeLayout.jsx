@@ -7,7 +7,9 @@ export default function HomeLayout() {
   return (
     <>
       <Header />
-      <Outlet />
+      <div className=" d-flex justify-content-around  align-items-center ">
+        <Outlet />
+      </div>
       <Footer />
     </>
   );

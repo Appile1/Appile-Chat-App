@@ -1,18 +1,32 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { GoggleProvider, auth } from "../FireBase";
+import { useNavigate } from "react-router-dom";
 import {
   createUserWithEmailAndPassword,
   signInWithPopup,
   signOut,
+  signInWithEmailAndPassword,
+  onAuthStateChanged,
 } from "firebase/auth";
-import { useNavigate } from "react-router-dom";
 
 export default function Login() {
   const [loginData, setLoginData] = useState({ password: "", email: "" });
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      setIsLoggedIn(!!user);
+    });
+
+    // Cleanup the subscription when the component unmounts
+    return () => unsubscribe();
+  }, []);
 
   async function Logout() {
     await signOut(auth);
   }
+
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setLoginData({ ...loginData, [name]: value });
@@ -20,6 +34,7 @@ export default function Login() {
 
   const SignGoogle = async () => {
     await signInWithPopup(auth, GoggleProvider);
+    navigate("/");
   };
 
   const handleSignUp = async () => {
@@ -28,61 +43,72 @@ export default function Login() {
       loginData.email,
       loginData.password
     );
+    navigate("/");
   };
 
+  async function SigninWithEmail() {
+    await signInWithEmailAndPassword(auth, loginData.email, loginData.password);
+    navigate("/");
+  }
+
   return (
-    <div style={styles.container}>
+    <div className="login-container bg-light d-flex flex-column align-items-center justify-content-center">
+      <h2>{isLoggedIn ? "Logged in" : "Logged out"}</h2>
+
       <h2>Login / Sign Up</h2>
-      <form style={styles.form}>
-        <label>
-          Email:
+      <form className="login-form">
+        <div className="form-group">
+          <label>Email:</label>
           <input
             type="email"
             name="email"
             value={loginData.email}
             onChange={handleInputChange}
+            className="form-control"
           />
-        </label>
-        <label>
-          Password:
+        </div>
+        <div className="form-group">
+          <label>Password:</label>
           <input
             type="password"
             name="password"
             value={loginData.password}
             onChange={handleInputChange}
+            className="form-control"
           />
-        </label>
-        <div style={styles.buttons}>
-          <button type="button" onClick={SignGoogle}>
-            Sign up With Google
-          </button>
-          <button type="button" onClick={handleSignUp}>
-            Sign Up
-          </button>
-          <button type="button" onClick={Logout}>
-            Logout
-          </button>
+        </div>
+        <div className="login-buttons">
+          {isLoggedIn ? (
+            <button type="button" className="btn btn-danger" onClick={Logout}>
+              Logout
+            </button>
+          ) : (
+            <div className=" d-flex justify-content-center gap-2">
+              <button
+                type="button"
+                className="btn btn-primary"
+                onClick={SignGoogle}
+              >
+                Sign up With Google
+              </button>
+              <button
+                type="button"
+                className="btn btn-success"
+                onClick={handleSignUp}
+              >
+                Sign Up
+              </button>
+              <button
+                type="button"
+                className="btn btn-info"
+                onClick={SigninWithEmail}
+              >
+                Login
+              </button>
+            </div>
+          )}
         </div>
       </form>
     </div>
   );
 }
-
-const styles = {
-  container: {
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center",
-    marginTop: "50px",
-  },
-  form: {
-    display: "flex",
-    flexDirection: "column",
-    width: "300px",
-  },
-  buttons: {
-    display: "flex",
-    justifyContent: "space-between",
-    marginTop: "10px",
-  },
-};
