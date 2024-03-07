@@ -6,6 +6,7 @@ import {
   addDoc,
   serverTimestamp,
   getDocs,
+  onSnapshot,
 } from "firebase/firestore";
 
 export default function ChatPage() {
@@ -13,12 +14,31 @@ export default function ChatPage() {
   const [data, setData] = useState([]);
   const User = auth.currentUser;
   const CollectionRef = collection(db, "ChatMessages");
+  useEffect(() => {
+    let unsubscribe;
 
+    async function GetDataFromFireBase() {
+      unsubscribe = onSnapshot(CollectionRef, (querySnapshot) => {
+        const newsData = [];
+        querySnapshot.forEach((doc) => {
+          newsData.push(doc.data());
+        });
+
+        setData(newsData);
+      });
+    }
+
+    GetDataFromFireBase();
+    return () => {
+      if (unsubscribe) {
+        unsubscribe();
+      }
+    };
+  }, []);
+  console.log(data);
   async function sendDataToFirebase() {
     try {
-      if (!text) {
-        throw new Error("Text cannot be empty");
-      }
+      if (text === "") return;
 
       setText("");
       await addDoc(collection(db, "ChatMessages"), {
@@ -30,13 +50,6 @@ export default function ChatPage() {
       setText("");
       console.error(error.message);
     }
-  }
-  async function GetDataFromFireBase() {
-    const querySnapshot = await getDocs(CollectionRef);
-
-    querySnapshot.forEach((doc) => {
-      console.log(doc.id, " => ", doc.data());
-    });
   }
 
   return (
@@ -52,9 +65,6 @@ export default function ChatPage() {
         />
         <button onClick={sendDataToFirebase} className=" btn">
           <FaArrowRightLong />
-        </button>
-        <button onClick={GetDataFromFireBase} className=" btn">
-          Fetch
         </button>
       </div>
     </div>

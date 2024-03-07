@@ -6,22 +6,14 @@ import {
   signInWithPopup,
   signOut,
   signInWithEmailAndPassword,
-  onAuthStateChanged,
 } from "firebase/auth";
+import CheckAuthentication from "../custom";
 
 export default function Login() {
   const [loginData, setLoginData] = useState({ password: "", email: "" });
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const isLogged = CheckAuthentication();
+
   const navigate = useNavigate();
-
-  useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
-      setIsLoggedIn(!!user);
-    });
-
-    // Cleanup the subscription when the component unmounts
-    return () => unsubscribe();
-  }, []);
 
   async function Logout() {
     await signOut(auth);
@@ -53,7 +45,7 @@ export default function Login() {
 
   return (
     <div className="login-container bg-light d-flex flex-column align-items-center justify-content-center">
-      <h2>{isLoggedIn ? "Logged in" : "Logged out"}</h2>
+      <h2>{isLogged ? "Logged in" : "Logged out"}</h2>
 
       <h2>Login / Sign Up</h2>
       <form className="login-form">
@@ -78,7 +70,7 @@ export default function Login() {
           />
         </div>
         <div className="login-buttons">
-          {isLoggedIn ? (
+          {isLogged ? (
             <button type="button" className="btn btn-danger" onClick={Logout}>
               Logout
             </button>
