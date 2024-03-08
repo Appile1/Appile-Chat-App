@@ -19,7 +19,7 @@ function App() {
         <Routes>
           {/* <Route path="/" element={<CheckUserLogin />}> */}
           <Route path="/" element={<HomeLayout />}>
-            <Route index element={<ChatPage isLogged={isLogged} />} />
+            <Route index element={<ChatPage />} />
           </Route>
           {/* </Route> */}
           <Route path="/login" element={<Login />} />

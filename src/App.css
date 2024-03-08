@@ -28,3 +28,105 @@
   justify-content: space-between;
   margin-top: 10px;
 }
+.ChatPage-container {
+  width: 75%;
+  background-color: #f0f0f0;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: center;
+  padding: 20px;
+}
+
+.ChatPage-messages {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.message {
+  background-color: #fff;
+  padding: 10px;
+  border-radius: 8px;
+  max-width: 70%;
+}
+
+.ChatPage-input {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 10px;
+}
+
+.text-input {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  margin-right: 10px;
+}
+
+.send-button {
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  padding: 10px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+.message-container {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+}
+
+.user-image {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+}
+
+.message-content {
+  display: flex;
+  flex-direction: column;
+  max-width: 70%;
+}
+
+.message-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.user-name {
+  font-weight: bold;
+  margin-right: 5px;
+}
+
+.message-body {
+  background-color: #fff;
+  padding: 10px;
+  border-radius: 8px;
+  margin-top: 5px;
+}
+
+.message-time {
+  color: #be3535;
+  font-size: 12px;
+}
+.delete-button {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  background-color: #dc3545;
+  color: #fff;
+  border: none;
+  padding: 5px;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 12px;
+  transition: background-color 0.3s ease;
+}
+.delete-button:hover {
+  background-color: #bd2130;
+}
