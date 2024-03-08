@@ -18,7 +18,7 @@ export default function ChatPage() {
   const [data, setData] = useState([]);
   const User = auth.currentUser;
   const CollectionRef = collection(db, "ChatMessages");
-  const Query = query(CollectionRef, orderBy("createdAt", "desc"));
+  const Query = query(CollectionRef, orderBy("createdAt", "asc"));
   useEffect(() => {
     const unsubscribe = onSnapshot(Query, (querySnapshot) => {
       const newsData = [];
@@ -31,7 +31,6 @@ export default function ChatPage() {
 
     return () => unsubscribe();
   }, []);
-  console.log(data);
   async function sendDataToFirebase() {
     try {
       if (text === "") return;
