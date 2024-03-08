@@ -5,7 +5,6 @@ import {
   collection,
   addDoc,
   serverTimestamp,
-  getDocs,
   onSnapshot,
 } from "firebase/firestore";
 
@@ -45,6 +44,8 @@ export default function ChatPage() {
         body: text,
         uid: User.uid,
         createdAt: serverTimestamp(),
+        userName: auth.currentUser.displayName,
+        userProfile: auth.currentUser.photoURL,
       });
     } catch (error) {
       setText("");
@@ -54,6 +55,9 @@ export default function ChatPage() {
 
   return (
     <div className="ChatPage w-75 bg-body-secondary d-flex justify-content-center align-items-end">
+      {data.map(() => {
+        return <div key={data.uid}> {data.body} </div>;
+      })}
       <div className="d-flex justify-content-center   align-items-center">
         <textarea
           placeholder="Type Here"
