@@ -9,23 +9,25 @@ import { onAuthStateChanged } from "firebase/auth";
 import { useState, useEffect } from "react";
 import { auth } from "./FireBase";
 import CheckAuthentication from "./custom";
+import { Navbar } from "./pages/Navbar";
 
 function App() {
   const isLogged = CheckAuthentication();
 
   return (
-    <>
-      <BrowserRouter>
-        <Routes>
-          {/* <Route path="/" element={<CheckUserLogin />}> */}
-          <Route path="/" element={<HomeLayout />}>
-            <Route index element={<ChatPage />} />
-          </Route>
-          {/* </Route> */}
-          <Route path="/login" element={<Login />} />
-        </Routes>
-      </BrowserRouter>
-    </>
+    <Navbar />
+    // <>
+    //   <BrowserRouter>
+    //     <Routes>
+    //       {/* <Route element={<CheckUserLogin />}> */}
+    //       <Route path="/" element={<HomeLayout />}>
+    //         <Route index element={<ChatPage />} />
+    //       </Route>
+    //       {/* </Route> */}
+    //       <Route path="/login" element={<Login />} />
+    //     </Routes>
+    //   </BrowserRouter>
+    // </>
   );
 }
 
