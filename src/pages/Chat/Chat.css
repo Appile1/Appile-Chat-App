@@ -1,0 +1,13 @@
+.Chat-Home {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.Chat-container {
+  display: flex;
+  width: 70%;
+  height: 75%;
+  justify-content: center;
+  align-items: center;
+}

@@ -2,7 +2,7 @@ import { signOut } from "firebase/auth";
 import React from "react";
 import { auth } from "../FireBase";
 
-export const Navbar = () => {
+const Navbar = () => {
   async function signoutUser() {
     await signOut(auth);
   }
@@ -26,3 +26,4 @@ export const Navbar = () => {
     </div>
   );
 };
+export default Navbar;

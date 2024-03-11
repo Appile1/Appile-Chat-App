@@ -29,7 +29,8 @@
   margin-top: 10px;
 }
 .ChatPage-container {
-  width: 50%;
+  height: 100%;
+  width: 600px;
   background-color: #f0f0f0;
   display: flex;
   flex-direction: column;
@@ -56,6 +57,7 @@
   justify-content: center;
   align-items: center;
   margin-top: 10px;
+  width: 500px;
 }
 
 .text-input {
@@ -167,6 +169,7 @@ button:active .button_top {
   align-items: center;
   background-color: #007bff;
   height: 50px;
+  /* flex: 2; */
 }
 .chat-name {
   margin-left: 0.4em;
@@ -197,4 +200,9 @@ button:active .button_top {
   color: white;
   border: none;
   background-color: black;
+}
+.sidebar-container {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
 }

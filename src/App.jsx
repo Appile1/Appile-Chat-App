@@ -9,13 +9,17 @@ import { onAuthStateChanged } from "firebase/auth";
 import { useState, useEffect } from "react";
 import { auth } from "./FireBase";
 import CheckAuthentication from "./custom";
-import { Navbar } from "./pages/Navbar";
+
+import Searchbox from "./pages/SearchComponents/Searchbox";
+import Chat from "./pages/Chat/Chat";
 
 function App() {
   const isLogged = CheckAuthentication();
 
   return (
-    <Navbar />
+    <>
+      <Chat />
+    </>
     // <>
     //   <BrowserRouter>
     //     <Routes>
