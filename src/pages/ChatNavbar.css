@@ -5,12 +5,14 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+  height: 7.6%;
 }
 
 .username {
   font-size: 18px;
   font-weight: bold;
   margin: 0;
+  margin-left: 0.3em;
 }
 
 .icons-container {

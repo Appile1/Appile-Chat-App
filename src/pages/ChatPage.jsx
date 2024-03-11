@@ -80,7 +80,7 @@ export default function ChatPage() {
       <ChatNavbar />
       <div className="ChatPage-messages">{Data}</div>
       <div className="ChatPage-input d-flex  align-items-center ">
-        <textarea
+        <input
           placeholder="Type Here"
           className="text-input text"
           onChange={(e) => setText(e.target.value)}

@@ -5,7 +5,6 @@
   resize: none;
   width: 499px;
   padding: 0.5em 0.8em;
-  margin-bottom: 1em;
 }
 .login-container {
   display: flex;
@@ -36,13 +35,13 @@
   flex-direction: column;
   justify-content: flex-end;
   align-items: center;
-  padding: 20px;
 }
 
 .ChatPage-messages {
   display: flex;
   flex-direction: column;
   gap: 10px;
+  height: 90%;
 }
 
 .message {
@@ -65,7 +64,6 @@
   padding: 10px;
   border: 1px solid #ccc;
   border-radius: 5px;
-  margin-right: 10px;
 }
 
 .send-button {
