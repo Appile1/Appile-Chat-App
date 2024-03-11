@@ -12,6 +12,7 @@ import {
   doc,
 } from "firebase/firestore";
 import { FaTrash } from "react-icons/fa";
+import ChatNavbar from "./ChatNav";
 
 export default function ChatPage() {
   const [text, setText] = useState("");
@@ -76,6 +77,7 @@ export default function ChatPage() {
 
   return (
     <div className="ChatPage-container">
+      <ChatNavbar />
       <div className="ChatPage-messages">{Data}</div>
       <div className="ChatPage-input d-flex  align-items-center ">
         <textarea

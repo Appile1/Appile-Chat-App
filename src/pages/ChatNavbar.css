@@ -1,0 +1,28 @@
+/* ChatNavbar.css */
+
+.chat-navbar-container {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.username {
+  font-size: 18px;
+  font-weight: bold;
+  margin: 0;
+}
+
+.icons-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px; /* Adjust the gap between icons as needed */
+}
+
+.camera-icon,
+.call-icon,
+.ellipsis-icon {
+  font-size: 24px;
+  cursor: pointer;
+}
