@@ -42,6 +42,9 @@
   flex-direction: column;
   gap: 10px;
   height: 90%;
+  overflow-y: scroll;
+  width: 100%;
+  justify-content: end;
 }
 
 .message {
@@ -79,7 +82,9 @@
   gap: 10px;
   align-items: flex-start;
 }
-
+.owner {
+  justify-content: flex-end;
+}
 .user-image {
   width: 40px;
   height: 40px;
@@ -108,6 +113,10 @@
   padding: 10px;
   border-radius: 8px;
   margin-top: 5px;
+}
+.message-owner {
+  background-color: rgb(108, 91, 206);
+  color: white;
 }
 
 .message-time {

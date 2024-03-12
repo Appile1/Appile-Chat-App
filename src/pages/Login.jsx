@@ -23,7 +23,7 @@ export default function Login() {
 
   async function sendDataToFirebase() {
     try {
-      await addDoc(collection(db, "PersonalData"), {
+      await addDoc(collection(db, "Users"), {
         Name: loginData.name,
         uid: user.uid,
         createdAt: serverTimestamp(),

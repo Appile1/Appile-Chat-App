@@ -14,6 +14,7 @@ import {
 import { FaTrash } from "react-icons/fa";
 import ChatNavbar from "./ChatNav";
 
+//  classNames to add if message owner owner in message container and .message-owner in message-body
 export default function ChatPage() {
   const [text, setText] = useState("");
   const [data, setData] = useState([]);
@@ -54,6 +55,10 @@ export default function ChatPage() {
     await deleteDoc(doc(db, "ChatMessages", id));
   }
 
+  function HandleKeyDown(e) {
+    e.code === "Enter" && sendDataToFirebase();
+  }
+
   const Data = data.map((message) => (
     <div key={message.id} className="message-container">
       <img
@@ -85,6 +90,7 @@ export default function ChatPage() {
           className="text-input text"
           onChange={(e) => setText(e.target.value)}
           value={text}
+          onKeyDown={HandleKeyDown}
         />
         <button onClick={sendDataToFirebase} className="send-button">
           <FaArrowRightLong />

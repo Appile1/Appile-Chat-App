@@ -6,6 +6,10 @@ export default function Searchbox() {
 
   function FindUser() {
     console.log("Search Value:", searchValue);
+    setSearchValue("");
+  }
+  function HandleKeyDown(e) {
+    e.code === "Enter" && FindUser();
   }
 
   return (
@@ -18,6 +22,7 @@ export default function Searchbox() {
           placeholder="Search..."
           value={searchValue}
           onChange={(e) => setSearchValue(e.target.value)}
+          onKeyDown={HandleKeyDown}
         />
         <span className="icon" onClick={FindUser}>
           <svg
