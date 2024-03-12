@@ -3,7 +3,8 @@ import "bootstrap/dist/css/bootstrap.css";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import HomeLayout from "./components/Layouts/HomeLayout";
 import CheckUserLogin from "./components/CheckUserLogin";
-import Login from "./pages/Login";
+import Login from "./pages/Login-sign/Login";
+import Signup from "./pages/Login-sign/Signup";
 import ChatPage from "./pages/ChatPage";
 import { onAuthStateChanged } from "firebase/auth";
 import { useState, useEffect } from "react";
@@ -18,7 +19,8 @@ function App() {
 
   return (
     <>
-      <Chat />
+      {/* <Chat /> */}
+      <Login />
     </>
     // <>
     //   <BrowserRouter>
