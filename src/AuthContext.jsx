@@ -1,4 +1,3 @@
-import { createContext } from "react";
 import { useState, useEffect, createContext } from "react";
 import { onAuthStateChanged } from "firebase/auth";
 import { auth } from "./FireBase";
@@ -17,6 +16,7 @@ export const AuthContextProvide = ({ children }) => {
     return () => {
       unsubscribe();
     };
-  }, []);
+  }, [user]);
+
   return <AuthContext.Provider value={user}> {children}</AuthContext.Provider>;
 };

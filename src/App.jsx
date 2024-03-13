@@ -18,22 +18,21 @@ function App() {
   const isLogged = CheckAuthentication();
 
   return (
-    <>
-      {/* <Chat /> */}
-      <Login />
-    </>
     // <>
-    //   <BrowserRouter>
-    //     <Routes>
-    //       {/* <Route element={<CheckUserLogin />}> */}
-    //       <Route path="/" element={<HomeLayout />}>
-    //         <Route index element={<ChatPage />} />
-    //       </Route>
-    //       {/* </Route> */}
-    //       <Route path="/login" element={<Login />} />
-    //     </Routes>
-    //   </BrowserRouter>
+    //   {/* <Chat /> */}
+
     // </>
+    <>
+      <BrowserRouter>
+        <Routes>
+          <Route element={<CheckUserLogin />}>
+            <Route path="/" element={<Chat />} />
+          </Route>
+          <Route path="/login" element={<Login />} />
+          <Route path="/signup" element={<Signup />} />
+        </Routes>
+      </BrowserRouter>
+    </>
   );
 }
 

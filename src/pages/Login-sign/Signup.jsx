@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { GoggleProvider, auth } from "../../FireBase";
 // import { useNavigate } from "react-router-dom";
 import {
@@ -9,6 +9,7 @@ import {
 } from "firebase/auth";
 import CheckAuthentication from "../../custom";
 import { db } from "../../FireBase";
+import { AuthContext } from "../../AuthContext";
 
 export default function Signup() {
   const [loginData, setLoginData] = useState({
@@ -16,9 +17,9 @@ export default function Signup() {
     password: "",
     name: "",
   });
-  const [isSignUpMode, setIsSignUpMode] = useState(false);
-  const isLogged = CheckAuthentication();
-  const user = auth.currentUser;
+
+  const User = useContext(AuthContext);
+  console.log(User);
 
   //   const navigate = useNavigate();
 
@@ -37,7 +38,6 @@ export default function Signup() {
   async function Logout() {
     await signOut(auth);
   }
-
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setLoginData({ ...loginData, [name]: value });
@@ -73,15 +73,15 @@ export default function Signup() {
 
   return (
     <div className="login-container bg-light d-flex flex-column align-items-center justify-content-center">
-      {isLogged && (
+      {Object.keys(User).length !== 0 && (
         <h2>
-          Welcome, {user.displayName || user.email}!{" "}
+          Welcome, {User.displayName || User.email}!{" "}
           <button className="btn btn-danger" onClick={Logout}>
             Logout
           </button>
         </h2>
       )}
-      {!isLogged && (
+      {Object.keys(User).length === 0 && (
         <>
           <h2>{"Sign Up"}</h2>
           <form className="login-form" onSubmit={HandleSubmit}>
