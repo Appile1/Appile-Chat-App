@@ -1,6 +1,6 @@
 import React, { useContext, useState } from "react";
 import { GoggleProvider, auth } from "../../FireBase";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import {
   createUserWithEmailAndPassword,
   signInWithPopup,
@@ -15,14 +15,11 @@ export default function Login() {
   const [loginData, setLoginData] = useState({
     email: "",
     password: "",
-    name: "",
   });
-  const User = useContext(AuthContext);
-  console.log(User);
+  const { user, isLogged } = useContext(AuthContext);
+  console.log(isLogged);
 
-  // const user = auth.currentUser;
-
-  // const navigate = useNavigate();
+  const navigate = useNavigate();
 
   // async function sendDataToFirebase() {
   //   try {
@@ -47,25 +44,24 @@ export default function Login() {
   const SigninWithEmail = async () => {
     await signInWithEmailAndPassword(auth, loginData.email, loginData.password);
 
-    // navigate("/");
+    navigate("/home");
   };
 
   const SignGoogle = async () => {
     await signInWithPopup(auth, GoggleProvider);
-    // navigate("/");
+    navigate("/home");
   };
 
   return (
     <div className="login-container bg-light d-flex flex-column align-items-center justify-content-center">
-      {Object.keys(User).length !== 0 && (
+      {isLogged ? (
         <h2>
-          Welcome, {User.displayName || User.email}!
+          Welcome, {user.displayName || user.email}!
           <button className="btn btn-danger" onClick={Logout}>
             Logout
           </button>
         </h2>
-      )}
-      {Object.keys(User).length === 0 && (
+      ) : (
         <>
           <h2>{"Login"}</h2>
           <form className="login-form">
@@ -109,6 +105,7 @@ export default function Login() {
                 >
                   Login
                 </button>
+                <Link to="/signup">Create Account</Link>
               </div>
             </div>
           </form>

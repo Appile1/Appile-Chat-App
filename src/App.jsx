@@ -15,8 +15,6 @@ import Searchbox from "./pages/SearchComponents/Searchbox";
 import Chat from "./pages/Chat/Chat";
 
 function App() {
-  const isLogged = CheckAuthentication();
-
   return (
     // <>
     //   {/* <Chat /> */}
@@ -26,7 +24,7 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route element={<CheckUserLogin />}>
-            <Route path="/" element={<Chat />} />
+            <Route path="/home" element={<Chat />} />
           </Route>
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />

@@ -1,15 +1,18 @@
 import React, { useContext, useState } from "react";
 import { GoggleProvider, auth } from "../../FireBase";
-// import { useNavigate } from "react-router-dom";
+import { storage } from "../../FireBase";
+import { useNavigate, Link } from "react-router-dom";
 import {
   createUserWithEmailAndPassword,
   signInWithPopup,
   signOut,
-  signInWithEmailAndPassword,
+  updateProfile,
 } from "firebase/auth";
-import CheckAuthentication from "../../custom";
+
 import { db } from "../../FireBase";
 import { AuthContext } from "../../AuthContext";
+import { doc, setDoc } from "firebase/firestore";
+import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 
 export default function Signup() {
   const [loginData, setLoginData] = useState({
@@ -18,70 +21,85 @@ export default function Signup() {
     name: "",
   });
 
-  const User = useContext(AuthContext);
-  console.log(User);
+  const { user, isLogged } = useContext(AuthContext);
 
-  //   const navigate = useNavigate();
+  const navigate = useNavigate();
 
-  //   async function sendDataToFirebase() {
-  //     try {
-  //       await addDoc(collection(db, "Users"), {
-  //         Name: loginData.name,
-  //         uid: user.uid,
-  //         createdAt: serverTimestamp(),
-  //       });
-  //     } catch (error) {
-  //       console.error(error.message);
-  //     }
-  //   }
+  async function CreateUser(user) {
+    try {
+      await setDoc(doc(db, "Users", user.uid), {
+        Name: user.displayName,
+        uid: user.uid,
+        photoURL: user.photoURL,
+      });
+    } catch (error) {
+      console.error(error.message);
+    }
+  }
 
   async function Logout() {
     await signOut(auth);
   }
+
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setLoginData({ ...loginData, [name]: value });
   };
-  function HandleSubmit(e) {
+
+  async function HandleSubmit(e) {
     e.preventDefault();
-    handleSignUp();
-  }
-  const handleSignUp = async () => {
+    const file = e.target[3].files[0];
+
     try {
-      await createUserWithEmailAndPassword(
+      const Res = await createUserWithEmailAndPassword(
         auth,
         loginData.email,
         loginData.password
       );
-      console.log("logged in ");
+
+      const storageRef = ref(storage, loginData.name);
+
+      const uploadTask = uploadBytesResumable(storageRef, file);
+
+      uploadTask.on(
+        (error) => {
+          console.error(error);
+        },
+        () => {
+          getDownloadURL(uploadTask.snapshot.ref).then(async (downloadURL) => {
+            await updateProfile(Res.user, {
+              displayName: loginData.name,
+              photoURL: downloadURL,
+            });
+          });
+        }
+      );
+
+      CreateUser(Res.user);
     } catch (error) {
       console.error(error);
     }
-    // navigate("/");
-  };
-
-  const SigninWithEmail = async () => {
-    await signInWithEmailAndPassword(auth, loginData.email, loginData.password);
-
-    // navigate("/");
-  };
+  }
 
   const SignGoogle = async () => {
-    await signInWithPopup(auth, GoggleProvider);
-    // navigate("/");
+    try {
+      const Res = await signInWithPopup(auth, GoogleProvider);
+      CreateUser(Res.user);
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   return (
     <div className="login-container bg-light d-flex flex-column align-items-center justify-content-center">
-      {Object.keys(User).length !== 0 && (
+      {isLogged ? (
         <h2>
-          Welcome, {User.displayName || User.email}!{" "}
+          Welcome, {user.displayName || user.email}!{" "}
           <button className="btn btn-danger" onClick={Logout}>
             Logout
           </button>
         </h2>
-      )}
-      {Object.keys(User).length === 0 && (
+      ) : (
         <>
           <h2>{"Sign Up"}</h2>
           <form className="login-form" onSubmit={HandleSubmit}>
@@ -118,6 +136,10 @@ export default function Signup() {
                 required
               />
             </div>
+            <div className="form-group">
+              <label>Display Photo URL:</label>
+              <input type="file" name="photoURL" className="form-control" />
+            </div>
 
             <div className="login-buttons">
               <div className="d-flex justify-content-center gap-2">
@@ -134,6 +156,7 @@ export default function Signup() {
                     Sign Up
                   </button>
                 </>
+                <Link to="/login">Login</Link>
               </div>
             </div>
           </form>

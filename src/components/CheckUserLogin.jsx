@@ -6,7 +6,7 @@ import CheckAuthentication from "../custom";
 import { AuthContext } from "../AuthContext";
 
 export default function CheckUserLogin() {
-  const User = useContext(AuthContext);
+  const { user, isLogged } = useContext(AuthContext);
 
-  return User ? <Outlet /> : <Navigate to="/login" />;
+  return true ? <Outlet /> : <Navigate to="/login" />;
 }
