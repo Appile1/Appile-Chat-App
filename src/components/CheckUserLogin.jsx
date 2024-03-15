@@ -1,8 +1,7 @@
-import React, { useState, useEffect, useContext } from "react";
-import { onAuthStateChanged } from "firebase/auth";
+import React, { useContext } from "react";
+
 import { Outlet, Navigate } from "react-router-dom";
-import { auth } from "../FireBase";
-import CheckAuthentication from "../custom";
+
 import { AuthContext } from "../AuthContext";
 
 export default function CheckUserLogin() {

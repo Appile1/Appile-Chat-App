@@ -7,8 +7,7 @@ import {
   signOut,
   signInWithEmailAndPassword,
 } from "firebase/auth";
-import CheckAuthentication from "../../custom";
-import { db } from "../../FireBase";
+
 import { AuthContext } from "../../AuthContext";
 
 export default function Login() {
@@ -16,22 +15,10 @@ export default function Login() {
     email: "",
     password: "",
   });
-  const { user, isLogged } = useContext(AuthContext);
-  console.log(isLogged);
+  const { user } = useContext(AuthContext);
 
   const navigate = useNavigate();
 
-  // async function sendDataToFirebase() {
-  //   try {
-  //     await addDoc(collection(db, "Users"), {
-  //       Name: loginData.name,
-  //       uid: user.uid,
-  //       createdAt: serverTimestamp(),
-  //     });
-  //   } catch (error) {
-  //     console.error(error.message);
-  //   }
-  // }
   async function Logout() {
     await signOut(auth);
   }
@@ -44,17 +31,17 @@ export default function Login() {
   const SigninWithEmail = async () => {
     await signInWithEmailAndPassword(auth, loginData.email, loginData.password);
 
-    navigate("/home");
+    navigate("/");
   };
 
   const SignGoogle = async () => {
     await signInWithPopup(auth, GoggleProvider);
-    navigate("/home");
+    navigate("/");
   };
 
   return (
     <div className="login-container bg-light d-flex flex-column align-items-center justify-content-center">
-      {isLogged ? (
+      {user ? (
         <h2>
           Welcome, {user.displayName || user.email}!
           <button className="btn btn-danger" onClick={Logout}>

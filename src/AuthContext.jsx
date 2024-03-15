@@ -5,25 +5,21 @@ import { auth } from "./FireBase";
 export const AuthContext = createContext();
 
 export const AuthContextProvide = ({ children }) => {
-  const [user, setCurrentUser] = useState({});
-  const [isLogged, setIsLogged] = useState(false);
+  const [user, setCurrentUser] = useState(false);
+
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       if (user) {
         setCurrentUser(user);
-
-        setIsLogged(true);
       }
     });
 
     return () => {
       unsubscribe();
     };
-  }, [user, isLogged]);
+  }, [user]);
 
   return (
-    <AuthContext.Provider value={{ user, isLogged }}>
-      {children}
-    </AuthContext.Provider>
+    <AuthContext.Provider value={{ user }}>{children}</AuthContext.Provider>
   );
 };

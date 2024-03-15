@@ -11,7 +11,7 @@ import {
 
 import { db } from "../../FireBase";
 import { AuthContext } from "../../AuthContext";
-import { doc, setDoc } from "firebase/firestore";
+import { addDoc, collection, setDoc, doc } from "firebase/firestore";
 import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 
 export default function Signup() {
@@ -21,8 +21,8 @@ export default function Signup() {
     name: "",
   });
 
-  const { user, isLogged } = useContext(AuthContext);
-
+  const { user } = useContext(AuthContext);
+  console.log(user);
   const navigate = useNavigate();
 
   async function CreateUser(user) {
@@ -30,8 +30,16 @@ export default function Signup() {
       await setDoc(doc(db, "Users", user.uid), {
         Name: user.displayName,
         uid: user.uid,
+        email: user.email,
         photoURL: user.photoURL,
       });
+    } catch (error) {
+      console.error(error.message);
+    }
+  }
+  async function CreateUserChat(user) {
+    try {
+      await setDoc(doc(db, "userChats", user.uid), {});
     } catch (error) {
       console.error(error.message);
     }
@@ -48,6 +56,7 @@ export default function Signup() {
 
   async function HandleSubmit(e) {
     e.preventDefault();
+    const DisplayName = e.target[0].value;
     const file = e.target[3].files[0];
 
     try {
@@ -57,7 +66,7 @@ export default function Signup() {
         loginData.password
       );
 
-      const storageRef = ref(storage, loginData.name);
+      const storageRef = ref(storage, DisplayName);
 
       const uploadTask = uploadBytesResumable(storageRef, file);
 
@@ -68,14 +77,15 @@ export default function Signup() {
         () => {
           getDownloadURL(uploadTask.snapshot.ref).then(async (downloadURL) => {
             await updateProfile(Res.user, {
-              displayName: loginData.name,
+              displayName: DisplayName,
               photoURL: downloadURL,
             });
+            CreateUser(Res.user);
+            CreateUserChat(Res.user);
+            navigate("/");
           });
         }
       );
-
-      CreateUser(Res.user);
     } catch (error) {
       console.error(error);
     }
@@ -83,8 +93,10 @@ export default function Signup() {
 
   const SignGoogle = async () => {
     try {
-      const Res = await signInWithPopup(auth, GoogleProvider);
+      const Res = await signInWithPopup(auth, GoggleProvider);
       CreateUser(Res.user);
+      CreateUserChat(Res.user);
+      navigate("/");
     } catch (error) {
       console.error(error);
     }
@@ -92,7 +104,7 @@ export default function Signup() {
 
   return (
     <div className="login-container bg-light d-flex flex-column align-items-center justify-content-center">
-      {isLogged ? (
+      {user ? (
         <h2>
           Welcome, {user.displayName || user.email}!{" "}
           <button className="btn btn-danger" onClick={Logout}>

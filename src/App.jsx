@@ -1,31 +1,37 @@
 import "./App.css";
 import "bootstrap/dist/css/bootstrap.css";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
-import HomeLayout from "./components/Layouts/HomeLayout";
-import CheckUserLogin from "./components/CheckUserLogin";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import Login from "./pages/Login-sign/Login";
 import Signup from "./pages/Login-sign/Signup";
-import ChatPage from "./pages/ChatPage";
-import { onAuthStateChanged } from "firebase/auth";
-import { useState, useEffect } from "react";
-import { auth } from "./FireBase";
-import CheckAuthentication from "./custom";
 
-import Searchbox from "./pages/SearchComponents/Searchbox";
 import Chat from "./pages/Chat/Chat";
+import { useContext } from "react";
+import { AuthContext } from "./AuthContext";
 
 function App() {
-  return (
-    // <>
-    //   {/* <Chat /> */}
+  const { user } = useContext(AuthContext);
+  console.log(user);
 
-    // </>
+  const ProtectedRoute = ({ children }) => {
+    if (!user) {
+      return <Navigate to="/login" />;
+    }
+
+    return children;
+  };
+
+  return (
     <>
       <BrowserRouter>
         <Routes>
-          <Route element={<CheckUserLogin />}>
-            <Route path="/home" element={<Chat />} />
-          </Route>
+          <Route
+            path="/"
+            element={
+              <ProtectedRoute>
+                <Chat />
+              </ProtectedRoute>
+            }
+          />
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
         </Routes>
