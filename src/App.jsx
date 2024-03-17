@@ -10,7 +10,6 @@ import { AuthContext } from "./AuthContext";
 
 function App() {
   const { user } = useContext(AuthContext);
-  console.log(user);
 
   const ProtectedRoute = ({ children }) => {
     if (!user) {

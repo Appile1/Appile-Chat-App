@@ -20,6 +20,7 @@ export default function ChatPage() {
   const [text, setText] = useState("");
   const [data, setData] = useState([]);
   const { user } = useContext(AuthContext);
+
   const CollectionRef = collection(db, "ChatMessages");
   const Query = query(CollectionRef, orderBy("createdAt", "asc"));
   useEffect(() => {
@@ -34,7 +35,7 @@ export default function ChatPage() {
 
     return () => unsubscribe();
   }, []);
-  console.log(user);
+
   async function sendDataToFirebase() {
     try {
       if (text === "") return;

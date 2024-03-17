@@ -1,45 +1,56 @@
-import React from "react";
+import React, { useContext, useEffect, useState } from "react";
 import "../Users/Users.css";
+import { AuthContext } from "../../AuthContext";
+import { onSnapshot, doc } from "firebase/firestore";
+import { db } from "../../FireBase";
+import { ChatContext } from "../../ChatContext";
 
-function User() {
+function User({ displayName, PhotoUrl, LastMessage, onClick, ChatInfo }) {
   return (
-    <div className="User">
-      <img
-        src="https://images.unsplash.com/photo-1608178398319-48f814d0750c?q=80&w=1158&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-        className="SidebarUser-img"
-      />
+    <div className="User" onClick={() => onClick(ChatInfo)}>
+      <img src={PhotoUrl} className="SidebarUser-img" />
       <div className="NameMessage">
-        <h3 className="SidebarUser-UserName">UserName</h3>
-        <p className="SidebarUser-LastMessage">Last Message</p>
+        <h3 className="SidebarUser-UserName">{displayName}</h3>
+        <p className="SidebarUser-LastMessage">{LastMessage}</p>
       </div>
     </div>
   );
 }
 function Users() {
+  const { user } = useContext(AuthContext);
+  const { dispatch } = useContext(ChatContext);
+  const [chats, setChats] = useState([]);
+
+  useEffect(() => {
+    const getChats = () => {
+      const unsub = onSnapshot(doc(db, "userChats", user.uid), (doc) => {
+        setChats(doc.data());
+      });
+
+      return () => {
+        unsub();
+      };
+    };
+
+    user.uid && getChats();
+  }, [user]);
+
+  function handleSelect(ChatInfo) {
+    dispatch({ type: "CHANGE_USER", payload: ChatInfo });
+  }
   return (
-    <>
-      <div className="div">
-        <User />
-        <User />
-        <User />
-        <User />
-        <User />
-        <User />
-        <User />
-        <User />
-        <User />
-        <User />
-        <User />
-        <User />
-        <User />
-        <User />
-        <User />
-        <User />
-        <User />
-        <User />
-        <User />
-      </div>
-    </>
+    <div className="div">
+      {Object.entries(chats)?.map((chat) => (
+        <User
+          ChatInfo={chat[1].userInfo}
+          onClick={handleSelect}
+          key={chat[0]}
+          displayName={chat[1].userInfo.displayName}
+          PhotoUrl={chat[1].userInfo.PhotoUrl}
+          LastMessage={chat[1].userInfo.LastMessage}
+        />
+      ))}
+    </div>
   );
 }
 

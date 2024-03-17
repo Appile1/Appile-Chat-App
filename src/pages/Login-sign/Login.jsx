@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import { GoggleProvider, auth } from "../../FireBase";
 import { Link, useNavigate } from "react-router-dom";
 import {
@@ -15,9 +15,19 @@ export default function Login() {
     email: "",
     password: "",
   });
+  const [isLoggedIn, setIsLoggedIn] = useState(false); // New state to indicate if the user is logged in
   const { user } = useContext(AuthContext);
 
   const navigate = useNavigate();
+
+  useEffect(() => {
+    // Check if user is an empty object
+    if (Object.keys(user).length === 0) {
+      setIsLoggedIn(false); // If user is empty, set isLoggedIn to false
+    } else {
+      setIsLoggedIn(true); // If user exists, set isLoggedIn to true
+    }
+  }, [user]);
 
   async function Logout() {
     await signOut(auth);
@@ -41,7 +51,7 @@ export default function Login() {
 
   return (
     <div className="login-container bg-light d-flex flex-column align-items-center justify-content-center">
-      {user ? (
+      {isLoggedIn ? ( // Use isLoggedIn state to determine whether to show login form or user info
         <h2>
           Welcome, {user.displayName || user.email}!
           <button className="btn btn-danger" onClick={Logout}>

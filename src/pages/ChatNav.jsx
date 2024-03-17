@@ -1,17 +1,16 @@
-// ChatNavbar.js
-
-import React from "react";
+import React, { useContext } from "react";
 import {
   AiOutlineCamera,
   AiOutlinePhone,
   AiOutlineEllipsis,
 } from "react-icons/ai";
 import "./ChatNavbar.css";
-
+import { ChatContext } from "../ChatContext";
 const ChatNavbar = () => {
+  const { data } = useContext(ChatContext);
   return (
     <div className="chat-navbar-container">
-      <p className="username">UserName</p>
+      <p className="username">{data?.userInfo?.displayName}</p>
       <div className="icons-container">
         <h1 className="camera-icon">
           <AiOutlineCamera />

@@ -1,6 +1,5 @@
-import React, { useContext, useState } from "react";
-import { GoggleProvider, auth } from "../../FireBase";
-import { storage } from "../../FireBase";
+import React, { useContext, useState, useEffect } from "react";
+import { GoggleProvider, auth, storage } from "../../FireBase";
 import { useNavigate, Link } from "react-router-dom";
 import {
   createUserWithEmailAndPassword,
@@ -8,7 +7,6 @@ import {
   signOut,
   updateProfile,
 } from "firebase/auth";
-
 import { db } from "../../FireBase";
 import { AuthContext } from "../../AuthContext";
 import { addDoc, collection, setDoc, doc } from "firebase/firestore";
@@ -20,10 +18,19 @@ export default function Signup() {
     password: "",
     name: "",
   });
-
+  const [isLoggedIn, setIsLoggedIn] = useState(false); // New state to indicate if the user is logged in
   const { user } = useContext(AuthContext);
-  console.log(user);
+
   const navigate = useNavigate();
+
+  useEffect(() => {
+    // Check if user is an empty object
+    if (Object.keys(user).length === 0) {
+      setIsLoggedIn(false); // If user is empty, set isLoggedIn to false
+    } else {
+      setIsLoggedIn(true); // If user exists, set isLoggedIn to true
+    }
+  }, [user]);
 
   async function CreateUser(user) {
     try {
@@ -37,6 +44,7 @@ export default function Signup() {
       console.error(error.message);
     }
   }
+
   async function CreateUserChat(user) {
     try {
       await setDoc(doc(db, "userChats", user.uid), {});
@@ -104,7 +112,7 @@ export default function Signup() {
 
   return (
     <div className="login-container bg-light d-flex flex-column align-items-center justify-content-center">
-      {user ? (
+      {isLoggedIn ? (
         <h2>
           Welcome, {user.displayName || user.email}!{" "}
           <button className="btn btn-danger" onClick={Logout}>
