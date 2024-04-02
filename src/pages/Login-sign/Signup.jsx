@@ -11,6 +11,7 @@ import { db } from "../../FireBase";
 import { AuthContext } from "../../AuthContext";
 import { addDoc, collection, setDoc, doc } from "firebase/firestore";
 import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
+import { Audio } from "react-loader-spinner";
 
 export default function Signup() {
   const [loginData, setLoginData] = useState({
@@ -91,12 +92,24 @@ export default function Signup() {
   return (
     <div className="login-container bg-light d-flex flex-column align-items-center justify-content-center">
       {user ? (
-        <h2>
-          Welcome, {user.displayName || user.email}!{" "}
-          <button className="btn btn-danger" onClick={Logout}>
-            Logout
-          </button>
-        </h2>
+        user.displayName ? (
+          <h2>
+            Welcome, {user.displayName}
+            <button className="btn btn-danger" onClick={Logout}>
+              Logout
+            </button>
+          </h2>
+        ) : (
+          <Audio
+            height="85"
+            width="90"
+            radius="9"
+            color="red"
+            ariaLabel="loading"
+            wrapperStyle
+            wrapperClass
+          />
+        )
       ) : (
         <>
           <h2>{"Sign Up"}</h2>

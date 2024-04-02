@@ -80,8 +80,8 @@ export default function Searchbox() {
         },
         [combinedId + ".date"]: serverTimestamp(), // Create or update date field with server timestamp
       });
-      console.log("Done");
     }
+    setSearchUser(null);
   }
 
   const ErrorText = error ? "Something Went Wrong" : "Search...";
