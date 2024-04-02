@@ -40,3 +40,34 @@
     transform: translateY(calc(-50% - 5px)) scale(1.1);
   }
 }
+.User {
+  display: flex;
+  align-items: center;
+  padding: 10px;
+  border-bottom: 1px solid #ccc;
+  transition: background-color 0.3s ease, cursor 0.3s ease;
+}
+.div {
+  overflow-y: scroll;
+}
+.User:hover {
+  background-color: #f0f0f0;
+  cursor: pointer;
+}
+
+.SidebarUser-img {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  margin-right: 10px;
+}
+
+.SidebarUser-UserName {
+  margin: 0;
+  font-size: 1.2em;
+}
+
+.SidebarUser-LastMessage {
+  margin: 0;
+  color: #888;
+}

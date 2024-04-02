@@ -9,14 +9,14 @@ const Navbar = () => {
   }
   const { user } = useContext(AuthContext);
 
-  const UserName = user.displayName ? user.displayName.split(" ")[0] : "";
+  const UserName = user.displayName;
   const userUrl =
     user.photoURL ||
     "https://img.freepik.com/premium-vector/user-profile-icon-flat-style-member-avatar-vector-illustration-isolated-background-human-permission-sign-business-concept_157943-15752.jpg?size=338&ext=jpg&ga=GA1.1.1395880969.1710201600&semt=ais";
   return (
     <div className="navbar-container">
       <p className="chat-name">Appile Chat</p>
-      <div className="user-info">
+      <div className="user-info align-items-center">
         <img src={userUrl} alt="user-image" className="navbar-img" />
         <p>{UserName}</p>
         <button

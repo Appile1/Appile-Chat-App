@@ -1,19 +1,29 @@
-.ChatPage {
-  height: 600px;
+body {
+  background: #642b73; /* fallback for old browsers */
+  background: -webkit-linear-gradient(
+    to bottom,
+    #c6426e,
+    #642b73
+  ); /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(
+    to bottom,
+    #c6426e,
+    #642b73
+  ); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
 }
-.text {
-  resize: none;
-  width: 499px;
-  padding: 0.5em 0.8em;
-}
+
 .login-container {
   display: flex;
   flex-direction: column;
   align-items: center;
   margin: 0 auto;
   margin-top: 250px;
-  width: 900px;
-  height: 600px;
+  width: 70%;
+  height: 700px;
+}
+.link {
+  text-decoration: none;
+  width: 200px;
 }
 
 .login-form {
@@ -29,7 +39,7 @@
 }
 .ChatPage-container {
   height: 100%;
-  width: 600px;
+  width: 100%;
   background-color: #f0f0f0;
   display: flex;
   flex-direction: column;
@@ -81,6 +91,7 @@
   display: flex;
   gap: 10px;
   align-items: flex-start;
+  margin-left: 1.3em;
 }
 .owner {
   justify-content: flex-end;
@@ -89,6 +100,7 @@
   width: 40px;
   height: 40px;
   border-radius: 50%;
+  object-fit: cover;
 }
 
 .message-content {
@@ -192,12 +204,14 @@ button:active .button_top {
   vertical-align: middle;
 }
 .navbar-img {
-  width: 20px;
+  width: 34px;
+  height: 25px;
   border-radius: 48%;
 }
 .user-info p {
   margin-bottom: 0;
   color: white;
+  display: flex;
 }
 .user-info button {
   margin-right: 1em;
@@ -212,4 +226,5 @@ button:active .button_top {
   display: flex;
   flex-direction: column;
   height: 100%;
+  width: 25%;
 }

@@ -15,19 +15,10 @@ export default function Login() {
     email: "",
     password: "",
   });
-  const [isLoggedIn, setIsLoggedIn] = useState(false); // New state to indicate if the user is logged in
+
   const { user } = useContext(AuthContext);
 
   const navigate = useNavigate();
-
-  useEffect(() => {
-    // Check if user is an empty object
-    if (Object.keys(user).length === 0) {
-      setIsLoggedIn(false); // If user is empty, set isLoggedIn to false
-    } else {
-      setIsLoggedIn(true); // If user exists, set isLoggedIn to true
-    }
-  }, [user]);
 
   async function Logout() {
     await signOut(auth);
@@ -50,8 +41,8 @@ export default function Login() {
   };
 
   return (
-    <div className="login-container bg-light d-flex flex-column align-items-center justify-content-center">
-      {isLoggedIn ? ( // Use isLoggedIn state to determine whether to show login form or user info
+    <div className="login-container bg-light d-flex flex-column align-items-center justify-content-center    rounded">
+      {user ? (
         <h2>
           Welcome, {user.displayName || user.email}!
           <button className="btn btn-danger" onClick={Logout}>
@@ -60,10 +51,10 @@ export default function Login() {
         </h2>
       ) : (
         <>
-          <h2>{"Login"}</h2>
+          <h2 className=" mb-4 fs-2">{"Login"}</h2>
           <form className="login-form">
             <div className="form-group">
-              <label>Email:</label>
+              <label className=" fs-5 text-center">Email:</label>
               <input
                 type="email"
                 name="email"
@@ -74,7 +65,7 @@ export default function Login() {
               />
             </div>
             <div className="form-group">
-              <label>Password:</label>
+              <label className=" fs-5">Password:</label>
               <input
                 type="password"
                 name="password"
@@ -86,23 +77,17 @@ export default function Login() {
             </div>
 
             <div className="login-buttons">
-              <div className="d-flex justify-content-center gap-2">
+              <div className="d-flex   align-items-center gap-2">
                 <button
                   type="button"
-                  className="btn btn-primary"
-                  onClick={SignGoogle}
-                >
-                  Sign in With Google
-                </button>
-
-                <button
-                  type="button"
-                  className="btn btn-info"
+                  className="btn btn-info w-100  justify-content-between fw-bold text-white"
                   onClick={SigninWithEmail}
                 >
                   Login
                 </button>
-                <Link to="/signup">Create Account</Link>
+                <Link to="/signup" className="link">
+                  Create Account
+                </Link>
               </div>
             </div>
           </form>

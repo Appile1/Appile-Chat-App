@@ -5,7 +5,7 @@ import Users from "./Users/Users.jsx";
 export default function Sidebar() {
   return (
     <div className=" sidebar-container">
-      <div>
+      <div className="">
         <Navbar />
         <Searchbox />
       </div>

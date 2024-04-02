@@ -18,19 +18,8 @@ export default function Signup() {
     password: "",
     name: "",
   });
-  const [isLoggedIn, setIsLoggedIn] = useState(false); // New state to indicate if the user is logged in
   const { user } = useContext(AuthContext);
-
   const navigate = useNavigate();
-
-  useEffect(() => {
-    // Check if user is an empty object
-    if (Object.keys(user).length === 0) {
-      setIsLoggedIn(false); // If user is empty, set isLoggedIn to false
-    } else {
-      setIsLoggedIn(true); // If user exists, set isLoggedIn to true
-    }
-  }, [user]);
 
   async function CreateUser(user) {
     try {
@@ -80,7 +69,7 @@ export default function Signup() {
 
       uploadTask.on(
         (error) => {
-          console.error(error);
+          console.error("Storage Error:", error);
         },
         () => {
           getDownloadURL(uploadTask.snapshot.ref).then(async (downloadURL) => {
@@ -95,24 +84,13 @@ export default function Signup() {
         }
       );
     } catch (error) {
-      console.error(error);
+      console.error("Authentication Error:", error);
     }
   }
 
-  const SignGoogle = async () => {
-    try {
-      const Res = await signInWithPopup(auth, GoggleProvider);
-      CreateUser(Res.user);
-      CreateUserChat(Res.user);
-      navigate("/");
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
   return (
     <div className="login-container bg-light d-flex flex-column align-items-center justify-content-center">
-      {isLoggedIn ? (
+      {user ? (
         <h2>
           Welcome, {user.displayName || user.email}!{" "}
           <button className="btn btn-danger" onClick={Logout}>
@@ -163,14 +141,6 @@ export default function Signup() {
 
             <div className="login-buttons">
               <div className="d-flex justify-content-center gap-2">
-                <button
-                  type="button"
-                  className="btn btn-primary"
-                  onClick={SignGoogle}
-                >
-                  Sign in With Google
-                </button>
-
                 <>
                   <button type="submit" className="btn btn-secondary">
                     Sign Up
