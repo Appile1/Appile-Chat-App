@@ -59,27 +59,27 @@ export default function Searchbox() {
         messages: [],
       });
 
+      await updateDoc(doc(db, "userChats", user.uid), {
+        [combinedId + ".userInfo"]: {
+          // Create or update userInfo field
+          uid: searchUser.uid, // User ID
+          displayName: searchUser.Name, // User's display name
+          photoURL: searchUser.photoURL, // User's photo URL
+        },
+        [combinedId + ".date"]: serverTimestamp(), // Create or update date field with server timestamp
+      });
       // Update document in "userChats" collection for searchUser
       await updateDoc(doc(db, "userChats", searchUser.uid), {
         [combinedId + ".userInfo"]: {
           // Create or update userInfo field
           uid: user.uid, // User ID
           displayName: user.displayName, // User's display name
-          PhotoURL: user.PhotoURL, // User's photo URL
+          photoURL: user.photoURL, // User's photo URL
         },
         [combinedId + ".date"]: serverTimestamp(), // Create or update date field with server timestamp
       });
 
       // Update document in "userChats" collection for user
-      await updateDoc(doc(db, "userChats", user.uid), {
-        [combinedId + ".userInfo"]: {
-          // Create or update userInfo field
-          uid: searchUser.uid, // User ID
-          displayName: searchUser.displayName, // User's display name
-          PhotoURL: searchUser.PhotoURL, // User's photo URL
-        },
-        [combinedId + ".date"]: serverTimestamp(), // Create or update date field with server timestamp
-      });
     }
     setSearchUser(null);
   }
