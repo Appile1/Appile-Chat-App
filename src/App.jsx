@@ -11,17 +11,6 @@ import CheckUserLogin from "../src/components/CheckUserLogin";
 
 function App() {
   const { user } = useContext(AuthContext);
-  console.log(user);
-
-  const ProtectedRoute = ({ children }) => {
-    if (!user) {
-      console.log(user);
-
-      return <Navigate to="/login" />;
-    }
-
-    return children;
-  };
 
   return (
     <>

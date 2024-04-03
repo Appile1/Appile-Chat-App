@@ -40,16 +40,18 @@ function Users() {
   }
   return (
     <div className="div">
-      {Object.entries(chats)?.map((chat) => (
-        <User
-          ChatInfo={chat[1].userInfo}
-          onClick={handleSelect}
-          key={chat[0]}
-          displayName={chat[1].userInfo.displayName}
-          PhotoUrl={chat[1].userInfo.PhotoUrl}
-          LastMessage={chat[1].userInfo.LastMessage}
-        />
-      ))}
+      {Object.entries(chats)
+        .sort((a, b) => b[1]?.date?.seconds - a[1]?.date?.seconds)
+        ?.map((chat) => (
+          <User
+            ChatInfo={chat[1]?.userInfo}
+            onClick={handleSelect}
+            key={chat[0]}
+            displayName={chat[1]?.userInfo?.displayName}
+            PhotoUrl={chat[1]?.userInfo?.photoURL}
+            LastMessage={chat[1]?.lastMessage?.text}
+          />
+        ))}
     </div>
   );
 }
