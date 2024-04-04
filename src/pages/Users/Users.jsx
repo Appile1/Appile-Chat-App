@@ -41,7 +41,7 @@ function Users() {
   return (
     <div className="div">
       {Object.entries(chats)
-        .sort((a, b) => b[1]?.date?.seconds - a[1]?.date?.seconds)
+        .sort((a, b) => b[1]?.date - a[1]?.date)
         ?.map((chat) => (
           <User
             ChatInfo={chat[1]?.userInfo}

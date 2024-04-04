@@ -26,7 +26,7 @@ export default function ChatPage() {
   const { user } = useContext(AuthContext);
   const { data } = useContext(ChatContext);
   const ref = useRef();
-
+  console.log(data);
   useEffect(() => {
     const unsubscribe = onSnapshot(
       doc(db, "chats", data.chatId),
@@ -90,7 +90,9 @@ export default function ChatPage() {
     >
       <img
         src={
-          message.senderId === user.uid ? user?.photoURL : data.user.photoURL
+          message.senderId === user.uid
+            ? user?.photoURL
+            : data.userInfo?.photoURL
         }
         // alt={message.userName}
         className="user-image"
