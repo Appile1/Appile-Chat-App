@@ -54,14 +54,14 @@ export default function ChatPage() {
         [data.chatId + ".lastMessage"]: {
           text,
         },
-        [data.chatId + "date"]: serverTimestamp(),
+        [data.chatId + ".date"]: serverTimestamp(),
       });
 
-      await updateDoc(doc(db, "userChats", data.user.uid), {
+      await updateDoc(doc(db, "userChats", data.userInfo.uid), {
         [data.chatId + ".lastMessage"]: {
           text,
         },
-        [data.chatId + "date"]: serverTimestamp(),
+        [data.chatId + ".date"]: serverTimestamp(),
       });
     } catch (error) {
       setText("");
