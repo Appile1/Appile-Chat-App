@@ -120,7 +120,8 @@ export default function ChatPage() {
 
   return (
     <div className="ChatPage-container">
-      <ChatNavbar />s<div className="ChatPage-messages">{Data}</div>
+      <ChatNavbar />
+      <div className="ChatPage-messages">{Data}</div>
       <div className="ChatPage-input d-flex  align-items-center ">
         <input
           placeholder="Type Here"
